@@ -1,37 +1,27 @@
-import { calculateNewValue } from "@testing-library/user-event/dist/utils";
+
 import React from "react";
 import {useState} from 'react';
 
-const Items = ({items, addToBasket}) => {
+const Items = ({items, handleSelectedItem}) => {
 
-    const [selectedItem, setSelectedItem] = useState ([]);
-
-    const handleSelectedItem = (event)=>{
-        setSelectedItem(event.target.value)
-       }
-
-    const handleButtonClick= (event)=>{
-        
+    // const handleClick = (event) =>{
+    const handleClick = (event, item) =>{
         event.preventDefault();
-        handleSelectedItem(event)
-        addToBasket(selectedItem)
-        setSelectedItem("")  
+        // handleSelectedItem(event)
+        handleSelectedItem(item);
         
     };
 
 
-  
-   
-
     const ListItems = items.map((item, index) =>{
         return (
         
-        <li key={index}> Name: {item.name} £{item.price} Description: {item.description} 
-        <button id="item.name" value={item} onClick={handleSelectedItem}>Add to basket</button></li>
-        )
-
-
-    })
+        <li key={index}> {item.name} £{item.price} 
+       {/* <button id={item} value={item.name} onClick={handleClick}>Add to basket</button> */}
+       <button id={item} value={item.name} onClick={(e) => handleClick(e, item)}>Add to basket</button>
+        </li>
+        );
+    });
 
     
     return (

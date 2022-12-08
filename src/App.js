@@ -20,14 +20,30 @@ function App() {
 
 
   const [itemList, setItemList] = useState (items);
-  
+  const [selectedItem, setSelectedItem] = useState (null);
   const [basketList, setBasketList] = useState ([]);
 
   const addToBasket = (item)=>{
-    let newBasketList = [...basketList]
-    newBasketList.push(item)
-    setBasketList(newBasketList)
-}
+    if (item!== null){
+    let newBasketList = [...basketList];
+    newBasketList.push(item);
+    setBasketList(newBasketList);
+    setSelectedItem(null);
+    };
+};
+
+  useEffect(()=>{
+    addToBasket(selectedItem);
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [selectedItem]);
+
+  
+
+
+const handleSelectedItem = (item)=>{
+  
+  setSelectedItem(item)
+ };
 
 
 
@@ -37,8 +53,10 @@ function App() {
       <NavBar />
         <Routes>
           <Route path="/" element={<Home/>} />
-          <Route path="/items" element={< Items items ={itemList} addToBasket={addToBasket}/>}/>
-          <Route path="/basket" element={< Basket/>} />
+          <Route path="/items" element={< Items items ={itemList} 
+          handleSelectedItem={handleSelectedItem}/>}/>
+
+          <Route path="/basket" element={< Basket basketList={basketList}/>} />
         </Routes>
  
     </Router>
